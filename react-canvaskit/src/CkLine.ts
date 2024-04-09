@@ -40,6 +40,7 @@ class CkLine implements CkElement<'ck-line'> {
       // TODO we can be smart and only recreate the paint object if the paint props have changed?
       this.renderPaint?.delete()
       this.renderPaint = toSkPaint(this.canvasKit, this.props.paint)
+      parent.skObject?.drawRRect([0, 0, 1000, 1000, 3, 3, 3, 3, 3, 3, 3, 3], this.renderPaint ?? this.defaultPaint)
       parent.skObject?.drawLine(
         this.props.x1,
         this.props.y1,

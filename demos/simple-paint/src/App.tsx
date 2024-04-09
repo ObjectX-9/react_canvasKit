@@ -12,7 +12,7 @@ export const App: FunctionComponent = () => {
       >
         Hello React-CanvasKit!
       </ck-text>
-      <ck-surface width={100} height={100} dx={100} dy={100}>
+      <ck-surface width={200} height={200} dx={0} dy={0}>
         <ck-canvas clear="#FF00FF" rotate={{ degree: 45 }}>
           <ck-text> React-CanvasKit.</ck-text>
           <ck-line

@@ -16,36 +16,51 @@
     "accelerated",
     "hardware-acceleration"
   ],
-  "main": "dist/index.js",
-  "typings": "types/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "scripts": {
     "prebuild": "rimraf dist types",
     "build": "tsc",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
-    "test:prod": "yarn test -- --no-cache"
+    "test:prod": "yarn test -- --no-cache",
+    "buildRc": "rollup -c"
   },
   "dependencies": {
-    "react-reconciler": "0.26.2"
+    "react-reconciler": "0.26.2",
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
     "canvaskit-wasm": "0.32.0",
     "react": "17.0.2"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "25.0.7",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "@rollup/plugin-typescript": "11.1.6",
     "@types/node": "^16.4.1",
     "@types/react-reconciler": "^0.26.3",
     "canvaskit-wasm": "0.32.0",
+    "postcss": "8.4.35",
     "prettier": "^2.5.1",
     "react-devtools": "^4.14.0",
     "rimraf": "^3.0.2",
+    "rollup": "4.13.0",
+    "rollup-plugin-dts": "6.1.0",
+    "rollup-plugin-postcss": "4.0.2",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.1.0",
-    "typescript": "^4.3.5"
+    "typescript": "^5.4.4"
   },
   "author": "Erik De Rijcke",
   "homepage": "https://github.com/udevbe/react-canvaskit",

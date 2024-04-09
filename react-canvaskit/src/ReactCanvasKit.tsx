@@ -1,9 +1,9 @@
 import type { CanvasKit, FontMgr as SkFontManager } from 'canvaskit-wasm'
-import * as CanvasKitInit from 'canvaskit-wasm'
+import CanvasKitInit from 'canvaskit-wasm'
 import type { FunctionComponent, ReactNode } from 'react'
 import * as React from 'react'
 import type { HostConfig } from 'react-reconciler'
-import * as ReactReconciler from 'react-reconciler'
+import ReactReconciler from 'react-reconciler'
 import {
   CkElement,
   CkElementContainer,
