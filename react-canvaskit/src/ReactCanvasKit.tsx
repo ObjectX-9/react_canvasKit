@@ -38,7 +38,7 @@ export async function init() {
 
   CanvasKitContext = React.createContext(ck)
   useCanvasKit = () => React.useContext(CanvasKitContext)
-  CanvasKitProvider = ({ children }) => <CanvasKitContext.Provider value={ck}>children</CanvasKitContext.Provider>
+  CanvasKitProvider = ({ children }:any) => <CanvasKitContext.Provider value={ck}>{children}</CanvasKitContext.Provider>
 
   const defaultFontManager = ck.FontMgr.FromData(robotoFontData) as SkFontManager
   FontManagerContext = React.createContext(defaultFontManager)
@@ -372,7 +372,7 @@ export function render(element: ReactNode, canvas: HTMLCanvasElement, renderCall
       this.children.forEach((child) => child.render(ckSurfaceElement))
     },
   }
-  const container = canvaskitReconciler.createContainer(ckSurfaceElement, rootTag, hydrate, null)
+  const container = canvaskitReconciler.createContainer(ckSurfaceElement, rootTag, null, false, null, '', () => {}, null)
 
   return new Promise<void>((resolve) => {
     canvaskitReconciler.updateContainer(element, container, null, () => resolve())

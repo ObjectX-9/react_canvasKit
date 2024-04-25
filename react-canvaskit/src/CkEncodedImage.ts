@@ -14,6 +14,9 @@ export interface CkEncodedImageProps extends CkElementProps<never> {
   left: number
   top: number
   bytes: Uint8Array | ArrayBuffer
+  // 添加图像的目标宽度和高度属性
+  width?: number
+  height?: number
   paint?: Paint
 }
 
@@ -54,7 +57,27 @@ class CkEncodedImage implements CkElement<'ck-encoded-image'> {
       if (this.image) {
         this.renderPaint?.delete()
         this.renderPaint = toSkPaint(this.canvasKit, this.props.paint)
-        parent.skObject?.drawImage(this.image, this.props.left, this.props.top, this.renderPaint ?? this.defaultPaint)
+        // 判断是否设置了width和height属性，设置目标尺寸
+        const dstRect = this.props.width !== undefined && this.props.height !== undefined
+          ? this.canvasKit.XYWHRect(this.props.left, this.props.top, this.props.width, this.props.height)
+          : undefined;
+
+        if (dstRect) {
+          parent.skObject?.drawImageRect(
+            this.image,
+            dstRect,
+            dstRect,
+            this.renderPaint ?? this.defaultPaint
+          )
+        } else {
+          // 如果没有设置宽度和高度，则正常绘制图像
+          parent.skObject?.drawImage(
+            this.image,
+            this.props.left,
+            this.props.top,
+            this.renderPaint ?? this.defaultPaint
+          )
+        }
       }
     }
   }

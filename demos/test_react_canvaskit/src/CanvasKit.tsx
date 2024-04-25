@@ -36,7 +36,7 @@ export default class CanvasKit extends React.Component<CanvasKit.Props, CanvasKi
     const { imageBytes } = this.state;
     return (
       <ck-canvas clear={{ red: 255, green: 165, blue: 0 }}>
-        {imageBytes && <ck-encoded-image top={20} left={20} bytes={imageBytes} />}
+        {imageBytes && <ck-encoded-image height={400} width={800} top={20} left={20} bytes={imageBytes} />}
         <ck-text
           x={5}
           y={50}
