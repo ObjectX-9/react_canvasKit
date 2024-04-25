@@ -1,34 +1,60 @@
-import { useEffect, useRef, useState } from "react";
+/* eslint-disable @typescript-eslint/no-useless-constructor */
 import "./App.css";
 import { init, render } from "react-canvaskit";
-import SkiaMainCanvas from "./SkiaMainCanvas";
-function App() {
-  const [ckLoaded, setCkloaded] = useState(false);
-  const canvas = useRef(null);
-  useEffect(() => {
-    init()
-      .then((res) => {
-        setCkloaded(true);
-      })
-      .catch((err) => {
-        setCkloaded(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    canvas.current && render(<SkiaMainCanvas />, canvas.current);
-  }, [ckLoaded]);
-
-  return ckLoaded ? (
-    <div className="App" style={{ overflow: "hidden" }}>
-      <canvas
-        width={window.innerWidth}
-        height={window.innerHeight}
-        ref={canvas}
-        id="canvas"
-      ></canvas>
-    </div>
-  ) : null;
+import React from "react";
+import CanvasKit from "./CanvasKit";
+namespace App {
+  export interface Props {
+  }
+  export interface State {
+    ckLoaded: boolean,
+  }
 }
+export default class App extends React.Component<App.Props, App.State> {
+  constructor(props: any) {
+    super(props);
+    this._getStateVal = this._getStateVal.bind(this);
+    this._refFunc = this._refFunc.bind(this);
+    this.state = this._getStateVal();
+  }
 
-export default App;
+  _getStateVal() {
+    return {
+      ckLoaded: false,
+    }
+  }
+
+  _refFunc(_ref: any) {
+    if (_ref) {
+      render(<CanvasKit />, _ref,);
+    }
+  }
+
+  componentDidMount() {
+    const self = this;
+    init().then(() => {
+      self.setState({
+        ckLoaded: true,
+      });
+    })
+      .catch((err) => {
+        self.setState({
+          ckLoaded: false,
+        });
+      })
+  }
+
+  render() {
+    const { ckLoaded } = this.state;
+    return ckLoaded ? (
+      <div className="App" style={{ overflow: "hidden" }}>
+        <canvas
+          width={window.innerWidth}
+          height={window.innerHeight}
+          ref={this._refFunc}
+          id="canvas"
+        ></canvas>
+      </div>
+    ) : null;
+  }
+}
